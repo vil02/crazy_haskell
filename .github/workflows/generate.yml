@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          token: ${{secrets.PUSH_TOKEN}}
 
       - name: Find new core name
         run: |
@@ -23,7 +25,7 @@ jobs:
 
       - name: Set generated name
         run: |
-          echo "OUTPUT_HS="./src/${NEW_CORE}.hs" >> $GITHUB_ENV
+          echo "OUTPUT_HS=$(pwd)/src/${NEW_CORE}.hs" >> $GITHUB_ENV
 
       - name: Generate Code
         id: generate_code
@@ -31,7 +33,7 @@ jobs:
         with:
           targetLanguage: "haskell"
           inputStr: ${{ env.TARGET_STR }}
-          outputFile: ${{ env.OUTPUT_STR }}
+          outputFile: ${{ env.OUTPUT_HS }}
 
       - name: commit and push result
         shell: bash
