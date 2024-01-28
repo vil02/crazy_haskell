@@ -5,7 +5,7 @@ name: check_outputs
   workflow_dispatch:
   push:
     branches:
-      - main
+      - master
   pull_request:
 
 jobs:
