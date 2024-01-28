@@ -1,0 +1,44 @@
+---
+name: generate
+
+'on':
+  workflow_dispatch:
+
+jobs:
+  check_outputs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Find new core name
+        run: |
+          echo "NEW_CORE=$(./find_min_core.sh)" >> $GITHUB_ENV
+
+      - name: Generate output
+        run: |
+          ./generate_output.sh "${NEW_CORE}"
+          echo "TARGET_STR=$(cat ./src/${NEW_CORE}.txt)" >> $GITHUB_ENV
+
+      - name: Set generated name
+        run: |
+          echo "OUTPUT_HS="./src/${NEW_CORE}.hs" >> $GITHUB_ENV
+
+      - name: Generate Code
+        id: generate_code
+        uses: vil02/string_to_code_action@main
+        with:
+          targetLanguage: "haskell"
+          inputStr: ${{ env.TARGET_STR }}
+          outputFile: ${{ env.OUTPUT_STR }}
+
+      - name: commit and push result
+        shell: bash
+        run: |
+          git config --global user.name 'vil02'
+          git config --global user.email 'vil02@users.noreply.github.com'
+          git add ./src/
+          git commit -m "feat: add \`${NEW_CORE}\`"
+          git push
+...
