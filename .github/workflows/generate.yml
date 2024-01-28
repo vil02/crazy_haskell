@@ -3,6 +3,8 @@ name: generate
 
 'on':
   workflow_dispatch:
+  schedule:
+    - cron: '43 */8 * * *'
 
 jobs:
   check_outputs:
