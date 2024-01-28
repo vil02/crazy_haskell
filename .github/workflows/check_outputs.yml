@@ -1,0 +1,22 @@
+---
+name: check_outputs
+
+'on':
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  check_outputs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: run check_all
+        run: |
+          ./check_all.sh
+...
