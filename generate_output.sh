@@ -17,4 +17,4 @@ fi
 
 declare -ri length=$((RANDOM % 1000 + 1))
 
-dd bs=16384 if=/dev/urandom count=1 2>/dev/null | LC_ALL=C tr -dc 'a-zA-Z0-9' | fold -w "${length}" | head -n 1 >> "${output_file}"
+dd bs=16384 if=/dev/urandom count=1 2>/dev/null | LC_ALL=C tr -dc 'a-zA-Z0-9' | head -c "${length}" >> "${output_file}"
