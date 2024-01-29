@@ -15,6 +15,6 @@ if [[ -e "${output_file}" ]]; then
   exit 1
 fi
 
-declare -ri length=$((RANDOM % 1000 + 1))
+declare -ri length=$((RANDOM % 50 + 1))
 
 dd bs=16384 if=/dev/urandom count=1 2>/dev/null | LC_ALL=C tr -dc 'a-zA-Z0-9' | head -c "${length}" >> "${output_file}"
